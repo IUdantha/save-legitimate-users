@@ -3,7 +3,7 @@
 Plugin Name: Save Legitimate Users
 Description: A plugin to collect and save legitimate user details.
 Version: 1.1
-Author: Isuru Udantha
+Author: Your Name
 */
 
 // Exit if accessed directly
@@ -17,16 +17,16 @@ define('SLU_PLUGIN_URL', plugin_dir_url(__FILE__));
 require_once SLU_PLUGIN_DIR . 'includes/functions.php';
 require_once SLU_PLUGIN_DIR . 'includes/form-handler.php';
 
-// Load admin files if in the admin area.
+// Include admin side functions
 if ( is_admin() ) {
-    require_once SLU_PLUGIN_DIR . 'includes/admin/admin-page.php';
+    require_once SLU_PLUGIN_DIR . 'includes/admin.php';
+    add_action('admin_enqueue_scripts', 'slu_admin_enqueue_scripts');
+    add_action('admin_menu', 'slu_admin_menu');
 }
 
 // Activation hook to create the database table
 register_activation_hook( __FILE__, 'slu_create_table' );
 
-// Enqueue frontend scripts/styles
+// Frontend hooks (client side)
 add_action('wp_enqueue_scripts', 'slu_enqueue_scripts');
-
-// Display the form popup on the client side (only for logged in users)
 add_action('wp_footer', 'slu_show_popup_form');
