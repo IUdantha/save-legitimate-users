@@ -1,11 +1,9 @@
 jQuery(document).ready(function ($) {
-  // Function to show the modal popup
+  // Function to show the Bootstrap modal popup
   function showModal() {
-    $("#slu-modal").fadeIn();
+    $("#sluModal").modal("show");
   }
 
-  // Check if the form is not submitted yet
-  // (For a real implementation, you might want to check via an AJAX call or a flag)
   var slu_form_submitted = false;
   function checkForm() {
     if (!slu_form_submitted) {
@@ -22,6 +20,7 @@ jQuery(document).ready(function ($) {
   $("#slu-form").on("submit", function (e) {
     e.preventDefault();
     var formData = new FormData(this);
+    formData.append("action", "slu_submit_form");
     $.ajax({
       url: slu_ajax_object.ajax_url,
       type: "POST",
@@ -32,7 +31,7 @@ jQuery(document).ready(function ($) {
         if (response.success) {
           alert("Form submitted successfully");
           slu_form_submitted = true;
-          $("#slu-modal").fadeOut();
+          $("#sluModal").modal("hide");
         } else {
           alert("Error: " + response.data.message);
         }

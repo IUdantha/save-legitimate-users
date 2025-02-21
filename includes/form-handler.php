@@ -1,6 +1,5 @@
 <?php
 if (!defined('ABSPATH')) exit;
-
 /**
  * Handle the AJAX form submission.
  */
@@ -64,7 +63,7 @@ function slu_handle_form_submission(){
     // You can add additional fields if needed
 
     // Save the PDF
-    $pdf_dir = $uploads_base . '/pdfs';
+    $pdf_dir = $uploads_base . '/slu_uploads/pdfs';
     if( ! file_exists($pdf_dir) ){
         wp_mkdir_p($pdf_dir);
     }
