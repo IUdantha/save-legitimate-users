@@ -17,6 +17,11 @@ define('SLU_PLUGIN_URL', plugin_dir_url(__FILE__));
 require_once SLU_PLUGIN_DIR . 'includes/functions.php';
 require_once SLU_PLUGIN_DIR . 'includes/form-handler.php';
 
+// Load admin files if in the admin area.
+if ( is_admin() ) {
+    require_once SLU_PLUGIN_DIR . 'includes/admin/admin-page.php';
+}
+
 // Activation hook to create the database table
 register_activation_hook( __FILE__, 'slu_create_table' );
 
