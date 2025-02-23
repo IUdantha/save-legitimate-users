@@ -3,8 +3,10 @@
 Plugin Name: Save Legitimate Users
 Description: A plugin to collect and save legitimate user details.
 Version: 1.1
-Author: Your Name
+Author: Isuru Udantha
+Author URI: https://isuruudantha.com/
 */
+
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
