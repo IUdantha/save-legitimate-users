@@ -63,6 +63,13 @@ function slu_has_submitted_form($user_id){
 /**
  * Render the popup form template.
  */
+function slu_render_form_popup(){
+    include SLU_PLUGIN_DIR . 'templates/form-template-popup.php';
+}
+
+/**
+ * Render the form template.
+ */
 function slu_render_form(){
     include SLU_PLUGIN_DIR . 'templates/form-template.php';
 }
@@ -74,7 +81,21 @@ function slu_show_popup_form(){
     if ( is_user_logged_in() ) {
         $user_id = get_current_user_id();
         if( ! slu_has_submitted_form($user_id) ){
-            slu_render_form();
+            slu_render_form_popup();
         }
+    }
+}
+
+/**
+ * Shortcode callback to display the Legitimate User form.
+ */
+function slu_form_shortcode() {
+    // Only display the form if the user is logged in
+    if ( is_user_logged_in() ) {
+        ob_start();
+        slu_render_form(); // Reuse the form template output function
+        return ob_get_clean();
+    } else {
+        return '<p>You need to be logged in to submit the form.</p>';
     }
 }
