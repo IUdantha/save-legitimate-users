@@ -16,11 +16,9 @@ jQuery(document).ready(function ($) {
     checkForm();
   }, 10000);
 
-  // Handle the AJAX form submission
   $("#slu-form").on("submit", function (e) {
     e.preventDefault();
     var formData = new FormData(this);
-    formData.append("action", "slu_submit_form");
     $.ajax({
       url: slu_ajax_object.ajax_url,
       type: "POST",
@@ -29,9 +27,10 @@ jQuery(document).ready(function ($) {
       contentType: false,
       success: function (response) {
         if (response.success) {
-          alert("Form submitted successfully");
-          slu_form_submitted = true;
-          $("#sluModal").modal("hide");
+          // Replace the form content with a thank-you message
+          $("#slu-form").html(
+            "<p>Thanks for the submission, After the administrator review you will grand access to the bidding. Please stay tuned.</p>"
+          );
         } else {
           alert("Error: " + response.data.message);
         }

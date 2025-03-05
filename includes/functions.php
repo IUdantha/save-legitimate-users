@@ -89,11 +89,15 @@ function slu_show_popup_form(){
 /**
  * Shortcode callback to display the Legitimate User form.
  */
-function slu_form_shortcode() {
+function slu_form_shortcode($user_id) {
     // Only display the form if the user is logged in
     if ( is_user_logged_in() ) {
         ob_start();
-        slu_render_form(); // Reuse the form template output function
+        if( ! slu_has_submitted_form($user_id) ){
+            slu_render_form(); // Reuse the form template output function
+        } else {
+            return '<p>Thanks for the submission, After the administrator review you will grand access to the bidding. Please stay tuned.</p>';
+        }
         return ob_get_clean();
     } else {
         return '<p>You need to be logged in to submit the form.</p>';
