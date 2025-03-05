@@ -83,7 +83,7 @@ function slu_admin_page_callback() {
                     <th>ID</th>
                     <th>User ID</th>
                     <th>User Name</th>
-                    <th>NIC</th>
+                    <!-- <th>NIC</th> -->
                     <th>Country</th>
                     <th>Identity Verification</th>
                     <th>Financial Qualification</th>
@@ -105,7 +105,7 @@ function slu_admin_page_callback() {
                     echo '<td>' . esc_html($row->id) . '</td>';
                     echo '<td>' . esc_html($row->user_id) . '</td>';
                     echo '<td>' . esc_html($user_name) . '</td>';
-                    echo '<td>' . esc_html($row->nic) . '</td>';
+                    // echo '<td>' . esc_html($row->nic) . '</td>';
                     echo '<td>' . esc_html($row->country) . '</td>';
                     // Each link opens the file in a new tab
                     echo '<td><a class="btn btn-sm btn-info" href="' . esc_url($row->identity_verification) . '" target="_blank">View</a></td>';
@@ -146,10 +146,10 @@ function slu_admin_page_callback() {
                     <label for="edit-name">Government Registered Name</label>
                     <input type="text" class="form-control" id="edit-name" name="name" required>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="edit-nic">NIC Number</label>
-                    <input type="text" class="form-control" id="edit-nic" name="nic" required>
-                </div>
+                    <input type="text" class="form-control" id="edit-nic" name="nic">
+                </div> -->
                 <div class="form-group">
                     <label for="edit-country">Country</label>
                     <input type="text" class="form-control" id="edit-country" name="country" required>

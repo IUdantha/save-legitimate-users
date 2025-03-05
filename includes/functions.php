@@ -93,6 +93,7 @@ function slu_form_shortcode($user_id) {
     // Only display the form if the user is logged in
     if ( is_user_logged_in() ) {
         ob_start();
+        $user_id = get_current_user_id();
         if( ! slu_has_submitted_form($user_id) ){
             slu_render_form(); // Reuse the form template output function
         } else {
