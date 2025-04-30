@@ -44,6 +44,8 @@ function slu_enqueue_scripts(){
         // Enqueue the plugin's custom JS
         wp_enqueue_script('slu-popup', SLU_PLUGIN_URL . 'assets/js/popup.js', array('jquery','bootstrap-js'), '1.0', true );
         wp_localize_script('slu-popup', 'slu_ajax_object', array( 'ajax_url' => admin_url('admin-ajax.php') ) );
+
+        wp_enqueue_style('slu-style', plugin_dir_url(__FILE__) . '../assets/css/style.css');
     }
 }
 
@@ -81,7 +83,7 @@ function slu_show_popup_form(){
     if ( is_user_logged_in() ) {
         $user_id = get_current_user_id();
         if( ! slu_has_submitted_form($user_id) ){
-            slu_render_form_popup();
+            // slu_render_form_popup();
         }
     }
 }
@@ -102,5 +104,24 @@ function slu_form_shortcode($user_id) {
         return ob_get_clean();
     } else {
         return '<p>You need to be logged in to submit the form.</p>';
+    }
+}
+
+/**
+ * Shortcode callback to display the Legitimate User button.
+ */
+function slu_btn_shortcode($user_id) {
+    // Only display the form if the user is logged in
+    if ( is_user_logged_in() ) {
+        ob_start();
+        $user_id = get_current_user_id();
+        if( ! slu_has_submitted_form($user_id) ){
+            ?><a href="https://agam.art/legitimate/"><button class="slu-header-btn">BECOME A <br />VERIFIED USER</button></a><?php
+        } else {
+            ?><a href="https://agam.art/legitimate/"><button class="slu-header-btn">VERIFICATION PENDING</button></a><?php
+        }
+        return ob_get_clean();
+    } else {
+        return '';
     }
 }
