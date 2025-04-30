@@ -32,3 +32,5 @@ register_activation_hook( __FILE__, 'slu_create_table' );
 // Frontend hooks (client side)
 add_action('wp_enqueue_scripts', 'slu_enqueue_scripts');
 add_action('wp_footer', 'slu_show_popup_form');
+add_shortcode('legitimate_user_form', 'slu_form_shortcode');
+add_shortcode('legitimate_user_button', 'slu_btn_shortcode');

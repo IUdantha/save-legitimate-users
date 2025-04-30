@@ -1,5 +1,12 @@
 jQuery(document).ready(function ($) {
-  // Function to show the Bootstrap modal popup
+  // Simple function to check if we are on the /legitimate page.
+  function isOnLegitimatePage() {
+    // For a quick partial match, check if "/legitimate" is in the URL
+    // Adjust if your site uses "/legitimate/" or query strings, etc.
+    return window.location.pathname.includes("/legitimate");
+  }
+
+  // Function to show the modal popup
   function showModal() {
     $("#sluModal").modal("show");
   }
@@ -11,16 +18,17 @@ jQuery(document).ready(function ($) {
     }
   }
 
-  // Trigger the popup every 10 seconds if the form isn’t submitted
-  setInterval(function () {
-    checkForm();
-  }, 10000);
+  // Only run the popup interval if NOT on the /legitimate page
+  if (!isOnLegitimatePage()) {
+    setInterval(function () {
+      checkForm();
+    }, 10000);
+  }
 
-  // Handle the AJAX form submission
+  // Handle form submission
   $("#slu-form").on("submit", function (e) {
     e.preventDefault();
     var formData = new FormData(this);
-    formData.append("action", "slu_submit_form");
     $.ajax({
       url: slu_ajax_object.ajax_url,
       type: "POST",
@@ -29,9 +37,10 @@ jQuery(document).ready(function ($) {
       contentType: false,
       success: function (response) {
         if (response.success) {
-          alert("Form submitted successfully");
-          slu_form_submitted = true;
-          $("#sluModal").modal("hide");
+          // Replace the form content with a thank-you message
+          $("#slu-form").html(
+            "<p>Thanks for the submission, After the administrator review you will grant access to the bidding. Please stay tuned.</p>"
+          );
         } else {
           alert("Error: " + response.data.message);
         }
