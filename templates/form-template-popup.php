@@ -31,10 +31,10 @@
                 <label for="slu-financial">Financial Qualification (Proof of Funds)</label>
                 <input type="file" class="form-control-file" id="slu-financial" name="financial_qualification" accept="image/*" required>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="slu-bca">Buyers Confidentiality Agreement Signature (BCA)</label>
                 <input type="file" class="form-control-file" id="slu-bca" name="bca" accept="image/*" required>
-            </div>
+            </div> -->
             <button type="submit" class="btn btn-primary" style="width: 100%; background-color: #1e1e19; border: none; outline: none; box-shadow: none;">Submit</button>
         </form>
       </div>
