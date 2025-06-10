@@ -116,7 +116,7 @@ function slu_btn_shortcode($user_id) {
         ob_start();
         $user_id = get_current_user_id();
         if( ! slu_has_submitted_form($user_id) ){
-            ?><a href="https://agam.art/legitimate/"><button class="slu-header-btn">BECOME A <br />VERIFIED USER</button></a><?php
+            ?><a href="https://agam.art/legitimate/"><button class="slu-header-btn">BECOME A <br />QUALIFIED COLLECTOR</button></a><?php
         } else {
             ?><a href="https://agam.art/legitimate/"><button class="slu-header-btn">VERIFICATION PENDING</button></a><?php
         }
