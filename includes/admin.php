@@ -193,6 +193,15 @@ function slu_handle_edit_entry() {
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'legitimate_users';
+
+    // Fetch current user's id
+    $user_id = (int) $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT user_id FROM {$table_name} WHERE id = %d",
+            $entry_id
+        )
+    );
+
     $result = $wpdb->update($table_name, array(
         'name'    => $name,
         'nic'     => $nic,
@@ -201,6 +210,19 @@ function slu_handle_edit_entry() {
     ), array('id' => $entry_id), array('%s','%s','%s','%s'), array('%d'));
 
     if ( $result !== false ) {
+        // Only change WP role if user is not an administrator
+        if ( $user_id ) {
+            $wp_user = new WP_User( $user_id );
+            // Check if they have the 'administrator' capability
+            if ( ! in_array( 'administrator', (array) $wp_user->roles, true ) ) {
+                if ( 'accept' === $status ) {
+                    $wp_user->set_role( 'contributor' );
+                } else {
+                    // pending or reject both map to subscriber
+                    $wp_user->set_role( 'subscriber' );
+                }
+            }
+        }
         wp_send_json_success(array('message' => 'Entry updated successfully.'));
     } else {
         wp_send_json_error(array('message' => 'Error updating entry.'));

@@ -4,6 +4,10 @@ if (!defined('ABSPATH')) exit;
  * Handle the AJAX form submission.
  */
 function slu_handle_form_submission(){
+    // initialize the DB for the future works
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'legitimate_users';
+    
     // Verify nonce for security
     if(!isset($_POST['slu_nonce']) || !wp_verify_nonce($_POST['slu_nonce'], 'slu_form_submit')){
         wp_send_json_error(array('message' => 'Security check failed.'));
@@ -18,8 +22,13 @@ function slu_handle_form_submission(){
 
     $user_id = get_current_user_id();
     $name    = sanitize_text_field($_POST['name']);
-    $nic     = sanitize_text_field($_POST['nic']);
+    $nic     = "NA";
+    // $nic     = sanitize_text_field($_POST['nic']);
     $country = sanitize_text_field($_POST['country']);
+
+    // Get the current highest paddle_number, default to 2022 so the first new one is 2023
+    $max = (int) $wpdb->get_var( "SELECT MAX(paddle_number) FROM {$table_name}" );
+    $next_paddle = $max >= 2023 ? $max + 1 : 2023;
 
     // Set up uploads directory
     $upload_dir = wp_upload_dir();
@@ -59,6 +68,8 @@ function slu_handle_form_submission(){
     // Text Details
     $pdf->SetFont('Arial','',12);
     $pdf->Cell(50,10,'Government Registered Name: ' . $name);
+    $pdf->Ln(10);
+    $pdf->Cell(50,10,'Paddle Number: ' . $next_paddle);
     $pdf->Ln(10);
     $pdf->Cell(50,10,'NIC Number: ' . $nic);
     $pdf->Ln(10);
@@ -115,13 +126,6 @@ function slu_handle_form_submission(){
 
 
     // Insert submission data into the database
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'legitimate_users';
-
-    // Get the current highest paddle_number, default to 2022 so the first new one is 2023
-    $max = (int) $wpdb->get_var( "SELECT MAX(paddle_number) FROM {$table_name}" );
-    $next_paddle = $max >= 2023 ? $max + 1 : 2023;
-
     $result = $wpdb->insert($table_name, array(
         'user_id'                => $user_id,
         'name'                   => $name,
