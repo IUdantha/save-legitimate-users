@@ -223,6 +223,36 @@ function slu_handle_edit_entry() {
                 }
             }
         }
+
+        // Sending the emails to user and admin
+
+        $user_info = get_userdata( $user_id );
+        $user_email = $user_info->user_email;
+        $user_name  = $user_info->display_name;
+        $paddle_number = (int) $wpdb->get_var(
+            $wpdb->prepare( "SELECT paddle_number FROM {$table_name} WHERE id = %d", $entry_id )
+        );
+
+        // 2. Send email to the user
+        $bid_link   = site_url('/auction/');
+        $user_subject = 'Your Verification Status: ' . ucfirst( $status );
+        // Headers to send HTML mail
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        ob_start();
+        include SLU_PLUGIN_DIR . 'templates/user-status-change.php';
+        $user_message = ob_get_clean();
+        wp_mail( $user_email, $user_subject, $user_message, $headers );
+
+        // 3. Send email to the admin
+        $admin_email   = get_option('admin_email');
+        $admin_subject = "User #{$user_id} Status Changed to " . strtoupper($status);
+        ob_start();
+        include SLU_PLUGIN_DIR . 'templates/admin-status-change.php';
+        $admin_message = ob_get_clean();
+        wp_mail( $admin_email, $admin_subject, $admin_message, $headers );
+
+
+
         wp_send_json_success(array('message' => 'Entry updated successfully.'));
     } else {
         wp_send_json_error(array('message' => 'Error updating entry.'));
