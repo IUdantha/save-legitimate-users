@@ -30,7 +30,7 @@
         <p>If you’d like to try again, please contact support.</p>
       <?php endif; ?>
 
-      <p>– The Team</p>
+      <p>– The agam.art Team</p>
     </div>
   </div>
 </body>
