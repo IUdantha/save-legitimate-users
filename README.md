@@ -1,15 +1,17 @@
 # SAVE LEGIMATE USERS
 
+## Shotcodes
+
+- Show the legitimate user registration form - `[legitimate_user_form]`
+- Show the legitimate user states button - `[legitimate_user_button]`
+
 ## Admin side SS
 
 ![1740345094962](images/README/1740345094962.png)
 
-
 ## Client Side SS
 
 ![1740345174283](images/README/1740345174283.png)
-
-
 
 ## Description
 
