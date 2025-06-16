@@ -83,6 +83,7 @@ function slu_admin_page_callback() {
                     <th>ID</th>
                     <th>User ID</th>
                     <th>User Name</th>
+                    <th>Paddle Number</th>
                     <!-- <th>NIC</th> -->
                     <th>Country</th>
                     <th>Identity Verification</th>
@@ -105,6 +106,7 @@ function slu_admin_page_callback() {
                     echo '<td>' . esc_html($row->id) . '</td>';
                     echo '<td>' . esc_html($row->user_id) . '</td>';
                     echo '<td>' . esc_html($user_name) . '</td>';
+                    echo '<td>' . esc_html($row->paddle_number) . '</td>';
                     // echo '<td>' . esc_html($row->nic) . '</td>';
                     echo '<td>' . esc_html($row->country) . '</td>';
                     // Each link opens the file in a new tab
@@ -191,6 +193,15 @@ function slu_handle_edit_entry() {
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'legitimate_users';
+
+    // Fetch current user's id
+    $user_id = (int) $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT user_id FROM {$table_name} WHERE id = %d",
+            $entry_id
+        )
+    );
+
     $result = $wpdb->update($table_name, array(
         'name'    => $name,
         'nic'     => $nic,
@@ -199,6 +210,49 @@ function slu_handle_edit_entry() {
     ), array('id' => $entry_id), array('%s','%s','%s','%s'), array('%d'));
 
     if ( $result !== false ) {
+        // Only change WP role if user is not an administrator
+        if ( $user_id ) {
+            $wp_user = new WP_User( $user_id );
+            // Check if they have the 'administrator' capability
+            if ( ! in_array( 'administrator', (array) $wp_user->roles, true ) ) {
+                if ( 'accept' === $status ) {
+                    $wp_user->set_role( 'contributor' );
+                } else {
+                    // pending or reject both map to subscriber
+                    $wp_user->set_role( 'subscriber' );
+                }
+            }
+        }
+
+        // Sending the emails to user and admin
+
+        $user_info = get_userdata( $user_id );
+        $user_email = $user_info->user_email;
+        $user_name  = $user_info->display_name;
+        $paddle_number = (int) $wpdb->get_var(
+            $wpdb->prepare( "SELECT paddle_number FROM {$table_name} WHERE id = %d", $entry_id )
+        );
+
+        // 2. Send email to the user
+        $bid_link   = site_url('/auction/');
+        $user_subject = 'Your Verification Status: ' . ucfirst( $status );
+        // Headers to send HTML mail
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        ob_start();
+        include SLU_PLUGIN_DIR . 'templates/user-status-change.php';
+        $user_message = ob_get_clean();
+        wp_mail( $user_email, $user_subject, $user_message, $headers );
+
+        // 3. Send email to the admin
+        $admin_email   = get_option('admin_email');
+        $admin_subject = "User #{$user_id} Status Changed to " . strtoupper($status);
+        ob_start();
+        include SLU_PLUGIN_DIR . 'templates/admin-status-change.php';
+        $admin_message = ob_get_clean();
+        wp_mail( $admin_email, $admin_subject, $admin_message, $headers );
+
+
+
         wp_send_json_success(array('message' => 'Entry updated successfully.'));
     } else {
         wp_send_json_error(array('message' => 'Error updating entry.'));

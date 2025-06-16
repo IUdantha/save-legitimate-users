@@ -24,6 +24,7 @@ function slu_create_table(){
             pdf_location varchar(255) NOT NULL,
             status varchar(20) NOT NULL DEFAULT 'pending',
             submitted_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+            paddle_number INT UNSIGNED NOT NULL,
             PRIMARY KEY  (id)
         ) $charset_collate;";
     
@@ -116,12 +117,45 @@ function slu_btn_shortcode($user_id) {
         ob_start();
         $user_id = get_current_user_id();
         if( ! slu_has_submitted_form($user_id) ){
-            ?><a href="https://agam.art/legitimate/"><button class="slu-header-btn">BECOME A <br />QUALIFIED COLLECTOR</button></a><?php
+            ?><a href="https://www.agam.art/legitimate/"><button class="slu-header-btn">BECOME A <br />QUALIFIED COLLECTOR</button></a><?php
         } else {
-            ?><a href="https://agam.art/legitimate/"><button class="slu-header-btn">VERIFICATION PENDING</button></a><?php
+            ?><a href="https://www.agam.art/legitimate/"><button class="slu-header-btn">VERIFICATION PENDING</button></a><?php
         }
         return ob_get_clean();
     } else {
         return '';
     }
 }
+
+
+/**
+ * Shortcode: [slu_paddle_number]
+ * Outputs the current user's paddle number (in white), or "NA".
+ */
+function slu_paddle_number_shortcode() {
+    // Not logged in? Bail early.
+    if ( ! is_user_logged_in() ) {
+        return '<span style="color:#fff;">NA</span>';
+    }
+
+    global $wpdb;
+    $user_id    = get_current_user_id();
+    $table_name = $wpdb->prefix . 'legitimate_users';
+
+    // Grab their paddle_number
+    $paddle = $wpdb->get_var( 
+        $wpdb->prepare(
+            "SELECT paddle_number FROM {$table_name} WHERE user_id = %d LIMIT 1",
+            $user_id
+        )
+    );
+
+    // If none found, show NA
+    if ( empty( $paddle ) ) {
+        return '<span style="color:#fff;">NA</span>';
+    }
+
+    // Otherwise output it in white
+    return '<span style="color:#fff;">' . esc_html( $paddle ) . '</span>';
+}
+add_shortcode( 'slu_paddle_number', 'slu_paddle_number_shortcode' );

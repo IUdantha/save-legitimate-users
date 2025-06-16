@@ -4,6 +4,7 @@
 
 - Show the legitimate user registration form - `[legitimate_user_form]`
 - Show the legitimate user states button - `[legitimate_user_button]`
+- Show the paddle number of the logged user - `[slu_paddle_number]`
 
 ## Admin side SS
 
