@@ -117,6 +117,11 @@ function slu_handle_form_submission(){
     // Insert submission data into the database
     global $wpdb;
     $table_name = $wpdb->prefix . 'legitimate_users';
+
+    // Get the current highest paddle_number, default to 2022 so the first new one is 2023
+    $max = (int) $wpdb->get_var( "SELECT MAX(paddle_number) FROM {$table_name}" );
+    $next_paddle = $max >= 2023 ? $max + 1 : 2023;
+
     $result = $wpdb->insert($table_name, array(
         'user_id'                => $user_id,
         'name'                   => $name,
@@ -126,8 +131,9 @@ function slu_handle_form_submission(){
         'financial_qualification'=> $uploaded_files['financial_qualification'],
         'bca'                    => $uploaded_files['bca'],
         'pdf_location'           => $pdf_url,
-        'status'                 => 'pending'
-    ), array('%d','%s','%s','%s','%s','%s','%s','%s','%s'));
+        'status'                 => 'pending',
+        'paddle_number'   => $next_paddle,
+    ), array('%d','%s','%s','%s','%s','%s','%s','%s','%s','%d'));
 
     if($result){
         wp_send_json_success(array('message' => 'Form submitted successfully'));

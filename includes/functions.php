@@ -24,6 +24,7 @@ function slu_create_table(){
             pdf_location varchar(255) NOT NULL,
             status varchar(20) NOT NULL DEFAULT 'pending',
             submitted_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+            paddle_number INT UNSIGNED NOT NULL,
             PRIMARY KEY  (id)
         ) $charset_collate;";
     

@@ -83,6 +83,7 @@ function slu_admin_page_callback() {
                     <th>ID</th>
                     <th>User ID</th>
                     <th>User Name</th>
+                    <th>Paddle Number</th>
                     <!-- <th>NIC</th> -->
                     <th>Country</th>
                     <th>Identity Verification</th>
@@ -105,6 +106,7 @@ function slu_admin_page_callback() {
                     echo '<td>' . esc_html($row->id) . '</td>';
                     echo '<td>' . esc_html($row->user_id) . '</td>';
                     echo '<td>' . esc_html($user_name) . '</td>';
+                    echo '<td>' . esc_html($row->paddle_number) . '</td>';
                     // echo '<td>' . esc_html($row->nic) . '</td>';
                     echo '<td>' . esc_html($row->country) . '</td>';
                     // Each link opens the file in a new tab
