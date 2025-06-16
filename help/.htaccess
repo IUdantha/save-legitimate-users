@@ -1,0 +1,13 @@
+# Disable directory listings
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /wp-content/uploads/slu_uploads/
+
+  # Don’t rewrite requests for the gatekeeper itself
+  RewriteRule ^slu-gatekeeper\.php$ - [L]
+
+  # All other requests get routed to our gatekeeper script
+  RewriteRule ^(.+)$ /wp-content/plugins/Save-Legitimate-Users/slu-gatekeeper.php?file=$1 [L,QSA]
+</IfModule>
