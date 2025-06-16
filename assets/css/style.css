@@ -18,3 +18,60 @@
   background-color: #b7b7b7;
   color: #000000;
 }
+
+/* wrap the form in a light gray border and a bit of padding */
+.legitimate-user-form {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  background: #fff; /* keep your existing white */
+}
+
+/* tuck a little space between fields */
+.legitimate-user-form .form-group {
+  margin-bottom: 16px;
+}
+
+/* small preview thumbnails after file inputs */
+.legitimate-user-form img.slu-preview {
+  display: block;
+  max-width: 100px;
+  max-height: 100px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* full‐screen overlay with centered spinner */
+.slu-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* simple CSS spinner */
+.slu-loading-overlay .spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #1e1e19; /* your dark button color */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: slu-spin 1s linear infinite;
+}
+
+@keyframes slu-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
