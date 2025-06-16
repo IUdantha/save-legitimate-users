@@ -1,0 +1,166 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
+
+<div id="slu-multistep-form">
+  <!-- Step 1: Privacy Notice -->
+  <div class="step step-1">
+    <div
+      style="
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+        max-width: 750px;
+        margin: 32px auto 0 auto;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        padding: 28px 32px;
+        background: #fafbfc;
+        text-align: left;
+      "
+    >
+      <h2 style="text-align: center; margin-top: 0; margin-bottom: 24px">
+        PRIVACY NOTICE
+      </h2>
+
+      <p>
+        <strong>Our Pledge of Discretion &amp; Security</strong><br />
+        To protect the integrity of our auctions and the privacy of our
+        clientele, we have instituted a mandatory verification process. This is
+        the foundation of the high-trust environment
+        <a
+          href="https://www.agam.art"
+          target="_blank"
+          rel="noopener"
+          style="color: #0066cc"
+          >www.agam.art</a
+        >
+        provides.
+      </p>
+
+      <p>
+        <strong>1. The Purpose of Verification</strong><br />
+        We collect your identification and financial capacity information for
+        two specific and necessary purposes:
+      </p>
+      <ul style="margin-top: 0; margin-bottom: 0">
+        <li>
+          <strong>To Grant Bidding Approval:</strong> To verify your identity
+          and ensure you meet the criteria for a vetted buyer.
+        </li>
+        <li>
+          <strong>To Comply with NZ Law:</strong> To meet our strict legal
+          duties under the Anti-Money Laundering and Countering Financing of
+          Terrorism Act 2009.
+        </li>
+      </ul>
+      <p style="margin-top: 8px">
+        This information is used for verification only and is never used for
+        marketing or profiling.
+      </p>
+
+      <p>
+        <strong>2. Our Data Security Pledge</strong><br />
+        We consider the protection of your data a non-negotiable obligation.
+      </p>
+      <ul style="margin-top: 0; margin-bottom: 0">
+        <li>
+          <strong>Security:</strong> All documents are secured with end-to-end
+          encryption. Our systems are built to industry-leading security
+          standards.
+        </li>
+        <li>
+          <strong>Access:</strong> Access to this information is strictly
+          limited to our dedicated in-house compliance team and is logged and
+          audited.
+        </li>
+        <li>
+          <strong>Retention:</strong> Your verification documents are retained
+          only for as long as necessary to comply with New Zealand law, after
+          which they are securely and permanently deleted.
+        </li>
+      </ul>
+      <br />
+      <p>
+        <strong>3. Your Rights &amp; Control</strong><br />
+        In accordance with the Privacy Act 2020, you have the right to access
+        and request the correction of your personal information. To do so,
+        please contact our Privacy Officer directly.
+      </p>
+
+      <p style="margin-bottom: 0">
+        For a comprehensive overview of our data practices, please see our full
+        <a
+          href="/privacy-policy"
+          target="_blank"
+          style="color: #0066cc; text-decoration: underline"
+          >Privacy Policy</a
+        >.
+      </p>
+    </div>
+    <div style="text-align: center; margin: 24px">
+      <button
+        id="slu-next-step"
+        type="button"
+        style="
+          width: 100%;
+          background-color: #1e1e19;
+          border: none;
+          outline: none;
+          box-shadow: none;
+          color: #fff;
+          padding: 10px 20px;
+          border-radius: 50px;
+          cursor: pointer;
+        "
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2: Form -->
+  <div class="step step-2" style="display: none">
+    <?php wp_nonce_field('slu_form_submit','slu_nonce'); ?>
+    <input type="hidden" name="action" value="slu_submit_form" />
+
+    [legitimate_user_form]
+
+    <div
+      style="display: flex; justify-content: space-between; margin-top: 24px"
+    >
+      <button
+        type="button"
+        id="slu-prev-step"
+        style="
+          width: 100%;
+          background-color: #fff;
+          border: solid;
+          outline: #1e1e19;
+          box-shadow: none;
+          color: #1e1e19;
+          padding: 10px 20px;
+          border-radius: 50px;
+          cursor: pointer;
+        "
+      >
+        See Privacy Policy again
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  jQuery(document).ready(function ($) {
+    $("#slu-next-step").on("click", function () {
+      $(".step-1").hide();
+      $(".step-2").show();
+    });
+    $("#slu-prev-step").on("click", function () {
+      $(".step-2").hide();
+      $(".step-1").show();
+    });
+    // The Next button in step 2 is a submit button by default
+  });
+</script>
