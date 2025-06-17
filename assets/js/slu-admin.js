@@ -22,10 +22,25 @@ jQuery(document).ready(function ($) {
   $("#editEntryForm").on("submit", function (e) {
     e.preventDefault();
     var formData = $(this).serialize();
+
+    // 1) Show a full-screen overlay with Bootstrap spinner
+    var $overlay = $(
+      '<div id="slu-admin-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;' +
+        "background:rgba(0,0,0,0.5);z-index:10000;display:flex;align-items:center;" +
+        'justify-content:center;">' +
+        '<div class="spinner-border text-light" role="status"><span class="sr-only">Loading...</span></div>' +
+        "</div>"
+    );
+    $("body").append($overlay);
+
+    // 2) Fire the AJAX
     $.post(
       slu_admin_ajax_object.ajax_url,
       formData + "&action=slu_edit_entry",
       function (response) {
+        // Remove overlay
+        $("#slu-admin-overlay").remove();
+
         if (response.success) {
           alert(response.data.message);
           location.reload();
@@ -33,7 +48,11 @@ jQuery(document).ready(function ($) {
           alert("Error: " + response.data.message);
         }
       }
-    );
+    ).fail(function () {
+      // On failure also remove overlay
+      $("#slu-admin-overlay").remove();
+      alert("Unexpected error. Please try again.");
+    });
   });
 
   // Handle delete action.
@@ -42,7 +61,7 @@ jQuery(document).ready(function ($) {
       var entryId = $(this).data("id");
       $.post(
         slu_admin_ajax_object.ajax_url,
-        {action: "slu_delete_entry", entry_id: entryId},
+        { action: "slu_delete_entry", entry_id: entryId },
         function (response) {
           if (response.success) {
             alert(response.data.message);
