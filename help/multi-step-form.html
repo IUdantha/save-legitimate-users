@@ -104,7 +104,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         id="slu-next-step"
         type="button"
         style="
-          width: 100%;
+          width: 50%;
           background-color: #1e1e19;
           border: none;
           outline: none;
@@ -121,20 +121,34 @@ if ( ! defined( 'ABSPATH' ) ) exit;
   </div>
 
   <!-- Step 2: Form -->
-  <div class="step step-2" style="display: none">
+  <div
+    class="step step-2"
+    style="
+      display: none;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 750px;
+      margin: 32px auto 0 auto;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      padding: 28px 32px;
+      background: #fafbfc;
+      text-align: left;
+    "
+  >
     <?php wp_nonce_field('slu_form_submit','slu_nonce'); ?>
     <input type="hidden" name="action" value="slu_submit_form" />
 
     [legitimate_user_form]
 
-    <div
-      style="display: flex; justify-content: space-between; margin-top: 24px"
-    >
+    <div style="text-align: center; margin: 24px">
       <button
         type="button"
         id="slu-prev-step"
         style="
-          width: 100%;
+          width: 80%;
           background-color: #fff;
           border: solid;
           outline: #1e1e19;

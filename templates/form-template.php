@@ -19,10 +19,10 @@
             <label for="slu-identity">Identity Verification (Passport/ID copy)</label>
             <input type="file" class="form-control-file" id="slu-identity" name="identity_verification" accept="image/*" required>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="slu-financial">Financial Qualification (Proof of Funds)</label>
             <input type="file" class="form-control-file" id="slu-financial" name="financial_qualification" accept="image/*" required>
-        </div>
+        </div> -->
         <!-- <div class="form-group">
             <label for="slu-bca">Buyers Confidentiality Agreement Signature (BCA)</label>
             <input type="file" class="form-control-file" id="slu-bca" name="bca" accept="image/*">
